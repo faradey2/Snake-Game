@@ -1,5 +1,6 @@
 var field = document.querySelector("#field");
 
+
 var cells = [];
 var feed = [];
 var direction = 'stop';
@@ -7,7 +8,8 @@ var commandBuffer = [];
 var record = 0;
 var score = 0;
 var prTimer;
-var borderType = 'non-transp'; //transparent, non-transparent
+var borderType = 'transp'; //transparent, non-transparent
+
 
 function startGame(){
 	field.width = 28;
@@ -19,7 +21,7 @@ function startGame(){
 	score = 0;
 	cells.push(createElement('cell'));
 	feed.push(createElement('food'));
-	prTimer = setInterval(process,100);
+	prTimer = setInterval(process,75);
 }
 
 var process = function (){
@@ -91,16 +93,17 @@ var process = function (){
 	// проверка на самопересечение
 	for(var i = 1 ; i < cells.length;i++)
 		if(intersects(cells[0],cells[i]))
-				GameOver();
+				GameOver(cells[i]);
 			
 	updateField();
 }
 
-function GameOver(){
+function GameOver(obj){
 	console.log('GameOver');
 	record = (score>record)?score:record;
 	clearInterval(prTimer);
-	cells[0].style.background= '#c00';
+	if(obj != undefined)
+	obj.style.background= '#c00';
 }
 
 function createElement(_className,x,y){
