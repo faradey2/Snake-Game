@@ -1,7 +1,8 @@
 body{
-	background: url(gridme.png);
+	background: url(swirl.png);
 	background-size: 25px;
 	background-position: -5px 4px ;
+	user-select: none;
 }
 
 #field{
@@ -12,7 +13,7 @@ body{
 	position: relative;
 	border: 4px solid #eee;
 	left: 50%;
-	margin: 42px -451px; 
+	margin-left: -451px; 
 
 }
 
@@ -24,6 +25,7 @@ body{
 	border-radius: 0px;
 	z-index: 2;
 	left: -1000px;
+	border-radius: 4px;
 }
 
 .food{
@@ -33,12 +35,121 @@ body{
 	height: 25px;
 	border-radius: 50%;
 	z-index: 1;
-	left: -100px;
+	left: -1000px;
 }
 
 #score{
+	display: inline-block;
 	background: rgba(0,0,0,0.05);
-	position: relative;
+	position: absolute;
+	font-size: 50px;
+	color: #999;
+	text-align: center;
+	user-select: none;
+	line-height: 1.9em;
 	width: 200px;
 	height: 100px;
+	left: 50%;
+	margin-left: 280px;
+	border-radius: 3px;
+}
+
+.button{
+	display: inline-block;
+	background: rgba(0,0,0,0.05);
+	position: absolute;
+	font-size: 20px;
+	color: #999;
+	text-align: center;
+	user-select: none;
+	line-height: 2em;
+	width: 200px;
+	height: 50px;
+	left: 50%;
+	margin-left: 280px;
+	border-radius: 3px;
+	user-select:none;
+}
+
+#start{
+	top:120px;
+}
+
+#stop{
+	top: 180px;
+}
+
+#transparent{
+	top: 240px;
+}
+
+#complexity{
+	display: inline-block;
+	background: rgba(0,0,0,0.05);
+	position: absolute;
+	font-size: 20px;
+	color: #999;
+	text-align: center;
+	user-select: none;
+	line-height: 1.9em;
+	width: 200px;
+	height: 88px;
+	left: 50%;
+	top:300px;
+	margin-left: 280px;
+	border-radius: 3px;
+}
+
+#hard{
+	display: inline-block;
+	position: absolute;
+	width: 55px;
+	height: 40px;
+	top: 40px;
+	left: 5px;
+	margin: 0;
+	background: rgba(0,100,0,0.05)
+}
+#normal{
+	display: inline-block;
+	position: absolute;
+	width: 72px;
+	height: 40px;
+	top: 40px;
+	left: 64px;
+	margin: 0;
+	background: rgba(0,100,0,0.1)
+}
+#easy{
+	display: inline-block;
+	position: absolute;
+	width: 55px;
+	height: 40px;
+	top: 40px;
+	left: 140px;
+	margin: 0;
+	background: rgba(0,100,0,0.05)
+}
+#info{
+	display: inline-block;
+	background: rgba(0,0,0,0.05);
+	position: absolute;
+	width: 200px;
+	height: 116px;
+	left: 50%;
+	top: 398px;
+	margin-left: 280px;
+	border-radius: 3px;
+}
+
+#info text{
+	font-size: 20px;
+	color: #999;
+	user-select: none;
+	line-height: 1.5em;
+}
+
+
+.button:hover{
+	background: rgba(0,0,100,0.1);
 }

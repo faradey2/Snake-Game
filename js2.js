@@ -1,5 +1,5 @@
 var field = document.querySelector("#field");
-
+var ScoreBoard = document.querySelector("#score");
 
 var cells = [];
 var feed = [];
@@ -8,27 +8,26 @@ var commandBuffer = [];
 var record = 0;
 var score = 0;
 var prTimer;
-var borderType = 'transp'; //transparent, non-transparent
+var speed = 90;
+var borderType = true; //true -transparent, false - non-transparent
 
 
 function startGame(){
 	field.width = 28;
 	field.height = 20;
 	direction = 'stop';
+	score = 0;
 	cells = [];
 	feed = [];
 	commandBuffer = [];
 	score = 0;
 	cells.push(createElement('cell'));
 	feed.push(createElement('food'));
-	prTimer = setInterval(process,75);
+	prTimer = setInterval(process,speed);
 }
 
 var process = function (){
-	for(var i=cells.length-1;i>0;i--){
-		cells[i].x = cells[i-1].x;
-		cells[i].y = cells[i-1].y;
-	}
+
 	if (commandBuffer.length > 0 )
 		if(	direction == 'left' && commandBuffer[0] == 'right' ||
 			direction == 'right' && commandBuffer[0] == 'left' ||
@@ -36,7 +35,11 @@ var process = function (){
 			direction == 'down' && commandBuffer[0] == 'up') commandBuffer.shift();
 		else	direction = commandBuffer.shift();
 	
-
+	if(direction!='stop')
+		for(var i=cells.length-1;i>0;i--){
+			cells[i].x = cells[i-1].x;
+			cells[i].y = cells[i-1].y;
+		}
 	switch(direction){
 		case 'left': 
 			cells[0].x--;
@@ -54,16 +57,16 @@ var process = function (){
 
 
 	if(cells[0].x < 0)	
-		if(borderType=='non-transp') GameOver();
+		if(!borderType) GameOver(cells[0]);
 		else cells[0].x = field.width - 1;
 	if(cells[0].y < 0)
-		if(borderType=='non-transp') GameOver();	
+		if(!borderType) GameOver();	
 		else cells[0].y = field.height - 1;
 	if(cells[0].x > field.width - 1)
-		if(borderType=='non-transp') GameOver(); 
+		if(!borderType) GameOver(); 
 		else cells[0].x = 0;
 	if(cells[0].y > field.height - 1)
-		if(borderType=='non-transp') GameOver(); 
+		if(!borderType) GameOver(); 
 		else cells[0].y = 0;
 
 	// проверка и действия при съедании еды
@@ -125,6 +128,10 @@ function updateField(){
 
 	for(var i=0;i<feed.length;i++)
 		draw(feed[i]);
+
+	ScoreBoard.innerHTML = score;
+
+
 }
 
 function draw(obj){
@@ -144,11 +151,12 @@ function intersects(obj1,obj2){
 startGame();
 
 addEventListener("keydown",function(e){
+	// console.log(e.keyCode);
 	if(commandBuffer.length > 2) return;
-	if(e.keyCode==37) commandBuffer.push('left');
-	if(e.keyCode==38) commandBuffer.push('up');
-	if(e.keyCode==39) commandBuffer.push('right');
-	if(e.keyCode==40) commandBuffer.push('down');
+	if(e.keyCode==37||e.keyCode==65) commandBuffer.push('left');
+	if(e.keyCode==38||e.keyCode==87) commandBuffer.push('up');
+	if(e.keyCode==39||e.keyCode==68) commandBuffer.push('right');
+	if(e.keyCode==40||e.keyCode==83) commandBuffer.push('down');
 	if(e.keyCode==32) commandBuffer.push('stop');
 	if(e.keyCode==82) {
 		GameOver();
@@ -158,3 +166,48 @@ addEventListener("keydown",function(e){
 			field.removeChild(feed[i]);
 		startGame();}
 })
+
+document.querySelector('#transparent').addEventListener("click",function(e){
+		borderType = !borderType;
+		if(borderType)
+			this.innerHTML = "transparent";
+		else this.innerHTML = "non-transparent";
+})
+
+document.querySelector('#start').addEventListener("click",function(e){
+	GameOver();
+		for(var i=0;i<cells.length;i++)
+			field.removeChild(cells[i]);
+		for(var i=0;i<feed.length;i++)
+			field.removeChild(feed[i]);
+	startGame();
+})
+
+document.querySelector("#stop").addEventListener("click",function(e){
+	direction = 'stop';
+})
+
+document.querySelector("#hard").addEventListener("click",function(e){
+	document.querySelector("#normal").style.background = "rgba(0,0,0,0.05)";
+	document.querySelector("#easy").style.background = "rgba(0,0,0,0.05)";
+	this.style.background = "rgba(0,100,0,0.1)";
+
+	speed = 70;
+})
+
+document.querySelector("#normal").addEventListener("click",function(e){
+	document.querySelector("#hard").style.background = "rgba(0,0,0,0.05)";
+	document.querySelector("#easy").style.background = "rgba(0,0,0,0.05)";
+	this.style.background = "rgba(0,100,0,0.1)";
+
+	speed = 90;
+})
+
+document.querySelector("#easy").addEventListener("click",function(e){
+	document.querySelector("#hard").style.background = "rgba(0,0,0,0.05)";
+	document.querySelector("#normal").style.background = "rgba(0,0,0,0.05)";
+	this.style.background = "rgba(0,100,0,0.1)";
+
+	speed = 140;
+})
+
